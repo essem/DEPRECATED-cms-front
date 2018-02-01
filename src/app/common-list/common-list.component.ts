@@ -7,7 +7,9 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
   styleUrls: ['./common-list.component.css'],
 })
 export class CommonListComponent implements OnInit {
-  dataSource = new MatTableDataSource<Npc>(NPC_DATA);
+  data = NPC;
+  dataSource = new MatTableDataSource(this.data.rows);
+  columns = this.data.cols.map(s => s.name);
 
   constructor() {
   }
@@ -16,17 +18,30 @@ export class CommonListComponent implements OnInit {
   }
 }
 
-export interface Npc {
-  id: number;
-  name: string;
-  level: number;
-}
-
-const NPC_DATA: Npc[] = [
-  { id: 1, name: 'Baroness Anastari', level: 51 },
-  { id: 2, name: 'Nerub\'enkan', level: 51 },
-  { id: 3, name: 'Maleki the Pallid', level: 62 },
-  { id: 4, name: 'Magistrate Barthilas', level: 51 },
-  { id: 5, name: 'Ramstein the Gorger', level: 51 },
-  { id: 6, name: 'Lord Aurius Rivendare', level: 51 },
-];
+const NPC = {
+  cols: [
+    {
+      type: 'id',
+      name: 'id',
+      display: 'Id',
+    },
+    {
+      type: 'string',
+      name: 'name',
+      display: 'Name',
+    },
+    {
+      type: 'integer',
+      name: 'level',
+      display: 'Level',
+    },
+  ],
+  rows: [
+    { id: 1, name: 'Baroness Anastari', level: 51 },
+    { id: 2, name: 'Nerub\'enkan', level: 51 },
+    { id: 3, name: 'Maleki the Pallid', level: 62 },
+    { id: 4, name: 'Magistrate Barthilas', level: 51 },
+    { id: 5, name: 'Ramstein the Gorger', level: 51 },
+    { id: 6, name: 'Lord Aurius Rivendare', level: 51 },
+  ],
+};
