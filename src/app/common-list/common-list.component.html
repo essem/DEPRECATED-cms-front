@@ -1,0 +1,19 @@
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{user.id}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{user.name}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="level">
+    <mat-header-cell *matHeaderCellDef>Level</mat-header-cell>
+    <mat-cell *matCellDef="let user">{{user.level}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['id', 'name', 'level']"></mat-header-row>
+  <mat-row *matRowDef="let myRowData; columns: ['id', 'name', 'level']"></mat-row>
+</mat-table>

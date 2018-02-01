@@ -4,10 +4,12 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from './material.module';
 
 import { AppComponent } from './app.component';
+import { CommonListComponent } from './common-list/common-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    CommonListComponent,
   ],
   imports: [
     BrowserModule,
