@@ -1,7 +1,9 @@
 <mat-toolbar color="primary">
-  <span>{{title}}</span>
+  <a mat-button routerLink="/">{{title}}</a>
+  <a mat-button routerLink="/npcs">Npcs</a>
+  <a mat-button routerLink="/items">Items</a>
 </mat-toolbar>
 
 <div style="padding: 1rem">
-  <app-common-list></app-common-list>
+  <router-outlet></router-outlet>
 </div>
