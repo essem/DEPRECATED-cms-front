@@ -9,7 +9,7 @@ import { CommonService } from '../common.service';
   styleUrls: ['./common-list.component.css'],
 })
 export class CommonListComponent implements OnInit {
-  target: string;
+  tableName: string;
   data;
   dataSource: MatTableDataSource<any>;
   columns: string[];
@@ -21,15 +21,22 @@ export class CommonListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const url = this.route.snapshot.url;
-    const lastSegment = url[url.length - 1];
-    this.target = lastSegment.path;
-    this.data = this.commonService.getList(this.target);
+    this.tableName = this.route.snapshot.paramMap.get('table');
+    this.updateList();
+
+    this.route.paramMap.subscribe((params) => {
+      this.tableName = params.get('table');
+      this.updateList();
+    });
+  }
+
+  updateList() {
+    this.data = this.commonService.getList(this.tableName);
     this.dataSource = new MatTableDataSource(this.data.rows);
     this.columns = this.data.cols.map(s => s.name);
   }
 
   handleRowClick(row) {
-    this.router.navigate([`/${this.target}/${row.id}`]);
+    this.router.navigate([`common/${this.tableName}/${row.id}`]);
   }
 }

@@ -17,8 +17,8 @@ export class CommonDetailComponent implements OnInit {
 
   ngOnInit() {
     const url = this.route.snapshot.url;
-    const tableName = url[url.length - 2].path;
 
+    const tableName = this.route.snapshot.paramMap.get('table');
     const id = +this.route.snapshot.paramMap.get('id');
     this.detail = this.commonService.getDetail(tableName, id);
   }

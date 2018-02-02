@@ -1,8 +1,14 @@
+import * as _ from 'lodash';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CommonService {
   constructor() {}
+
+  getRoots() {
+    const entries = _.entries(database).filter(entry => entry[1].display);
+    return entries.map(entry => ({ display: entry[1].display, name: entry[0] }));
+  }
 
   getList(tableName: string) {
     return database[tableName];
@@ -16,8 +22,10 @@ export class CommonService {
   }
 }
 
+/* tslint:disable:max-line-length */
 const database = {
   npcs: {
+    display: 'Npcs',
     cols: [
       {
         type: 'id',
@@ -45,6 +53,7 @@ const database = {
     ],
   },
   items: {
+    display: 'Items',
     cols: [
       {
         type: 'id',

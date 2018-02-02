@@ -5,11 +5,9 @@ import { CommonListComponent } from './common-list/common-list.component';
 import { CommonDetailComponent } from './common-detail/common-detail.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/npcs', pathMatch: 'full' },
-  { path: 'npcs', component: CommonListComponent },
-  { path: 'npcs/:id', component: CommonDetailComponent },
-  { path: 'items', component: CommonListComponent },
-  { path: 'items/:id', component: CommonDetailComponent },
+  { path: '', redirectTo: '/common/npcs', pathMatch: 'full' },
+  { path: 'common/:table', component: CommonListComponent },
+  { path: 'common/:table/:id', component: CommonDetailComponent },
 ];
 
 @NgModule({

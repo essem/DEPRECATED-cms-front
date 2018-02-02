@@ -1,7 +1,6 @@
 <mat-toolbar color="primary">
   <a mat-button routerLink="/">{{title}}</a>
-  <a mat-button routerLink="/npcs">Npcs</a>
-  <a mat-button routerLink="/items">Items</a>
+  <a mat-button routerLink="/common/{{table.name}}" *ngFor="let table of roots">{{table.display}}</a>
 </mat-toolbar>
 
 <div style="padding: 1rem">
