@@ -1,34 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-common-list',
-  templateUrl: './common-list.component.html',
-  styleUrls: ['./common-list.component.css'],
+  selector: 'app-common-detail',
+  templateUrl: './common-detail.component.html',
+  styleUrls: ['./common-detail.component.css'],
 })
-export class CommonListComponent implements OnInit {
+export class CommonDetailComponent implements OnInit {
   target;
-  data;
-  dataSource;
-  columns;
+  cols;
+  row;
 
   constructor(
-    private router: Router,
     private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
     const url = this.route.snapshot.url;
-    const lastSegment = url[url.length - 1];
-    this.target = lastSegment.path;
-    this.data = MOCK_DATA[this.target];
-    this.dataSource = new MatTableDataSource(this.data.rows);
-    this.columns = this.data.cols.map(s => s.name);
-  }
+    this.target = url[url.length - 2].path;
 
-  handleRowClick(row) {
-    this.router.navigate([`/${this.target}/${row.id}`]);
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.cols = MOCK_DATA[this.target].cols;
+    this.row = MOCK_DATA[this.target].rows.find(r => r.id === id);
   }
 }
 
