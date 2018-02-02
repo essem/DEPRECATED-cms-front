@@ -3,6 +3,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from './material.module';
 
+import { CommonService } from './common.service';
+
 import { AppComponent } from './app.component';
 import { CommonListComponent } from './common-list/common-list.component';
 import { AppRoutingModule } from './/app-routing.module';
@@ -20,7 +22,9 @@ import { CommonDetailComponent } from './common-detail/common-detail.component';
     MaterialModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [
+    CommonService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
