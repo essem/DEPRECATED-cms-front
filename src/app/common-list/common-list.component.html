@@ -1,3 +1,5 @@
+<h1 class="mat-headline">{{data.display}}</h1>
+
 <mat-table [dataSource]="dataSource">
   <ng-container [matColumnDef]="col.name" *ngFor="let col of data.cols">
     <mat-header-cell *matHeaderCellDef>{{col.display}}</mat-header-cell>

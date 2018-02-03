@@ -8,6 +8,8 @@ import { CommonService } from '../common.service';
   styleUrls: ['./common-detail.component.css'],
 })
 export class CommonDetailComponent implements OnInit {
+  tableName: string;
+  id: number;
   detail;
 
   constructor(
@@ -16,10 +18,18 @@ export class CommonDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const url = this.route.snapshot.url;
+    this.tableName = this.route.snapshot.paramMap.get('table');
+    this.id = +this.route.snapshot.paramMap.get('id');
+    this.updateDetail();
 
-    const tableName = this.route.snapshot.paramMap.get('table');
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.detail = this.commonService.getDetail(tableName, id);
+    this.route.paramMap.subscribe((params) => {
+      this.tableName = params.get('table');
+      this.id = +params.get('id');
+      this.updateDetail();
+    });
+  }
+
+  updateDetail() {
+    this.detail = this.commonService.getDetail(this.tableName, this.id);
   }
 }

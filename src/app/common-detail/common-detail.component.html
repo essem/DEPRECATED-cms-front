@@ -1,4 +1,18 @@
+<h1 class="mat-headline">{{detail.display}} {{id}}: {{detail.row[detail.title]}}</h1>
+
 <div class="field" *ngFor="let col of detail.cols">
   <div class="label">{{col.display}}</div>
-  <div class="value">{{detail.row[col.name]}}</div>
+  <div class="value">
+    <ng-container [ngSwitch]="col.type">
+      <a
+        *ngSwitchCase="'link'"
+        routerLink="/common/{{col.table}}/{{detail.row[col.name].id}}"
+      >
+        {{detail.row[col.name].id}}: {{detail.row[col.name].display}}
+      </a>
+      <span *ngSwitchDefault>
+        {{detail.row[col.name]}}
+      </span>
+    </ng-container>
+  </div>
 </div>
