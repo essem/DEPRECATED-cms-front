@@ -10,14 +10,7 @@ export class CommonService {
     return entries.map(entry => ({ display: entry[1].display, name: entry[0] }));
   }
 
-  getList(tableName: string) {
-    return database[tableName];
-  }
-
-  getDetail(tableName: string, id: number) {
-    const table = database[tableName];
-    const cols = table.cols;
-    const row = _.cloneDeep(table.rows.find(r => r.id === id));
+  expandLink(cols, row) {
     cols.forEach((col) => {
       if (col.type === 'link') {
         const id = row[col.name];
@@ -27,6 +20,21 @@ export class CommonService {
         row[col.name] = { id, display };
       }
     });
+  }
+
+  getList(tableName: string) {
+    const table = _.cloneDeep(database[tableName]);
+    table.rows.forEach((row) => {
+      this.expandLink(table.cols, row);
+    });
+    return table;
+  }
+
+  getDetail(tableName: string, id: number) {
+    const table = database[tableName];
+    const cols = table.cols;
+    const row = _.cloneDeep(table.rows.find(r => r.id === id));
+    this.expandLink(table.cols, row);
     return {
       cols,
       row,

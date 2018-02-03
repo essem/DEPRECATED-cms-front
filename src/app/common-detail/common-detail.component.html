@@ -3,16 +3,6 @@
 <div class="field" *ngFor="let col of detail.cols">
   <div class="label">{{col.display}}</div>
   <div class="value">
-    <ng-container [ngSwitch]="col.type">
-      <a
-        *ngSwitchCase="'link'"
-        routerLink="/common/{{col.table}}/{{detail.row[col.name].id}}"
-      >
-        {{detail.row[col.name].id}}: {{detail.row[col.name].display}}
-      </a>
-      <span *ngSwitchDefault>
-        {{detail.row[col.name]}}
-      </span>
-    </ng-container>
+    <app-field [col]="col" [value]="detail.row[col.name]"></app-field>
   </div>
 </div>
