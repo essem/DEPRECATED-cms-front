@@ -11,6 +11,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { CommonDetailComponent } from './common-detail/common-detail.component';
 import { FieldComponent } from './field/field.component';
 import { FieldsComponent } from './fields/fields.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FieldsComponent } from './fields/fields.component';
     CommonDetailComponent,
     FieldComponent,
     FieldsComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
