@@ -10,14 +10,40 @@ export class CommonService {
     return entries.map(entry => ({ display: entry[1].display, name: entry[0] }));
   }
 
-  expandLink(cols, row) {
+  expandLink(col, row) {
+    // console.log('expandLink', col, row)
+    const targetId = row[col.name];
+    const targetTable = database[col.table];
+    const targetRow = _.cloneDeep(targetTable.rows.find(r => r.id === targetId));
+    const display = targetRow[targetTable.title];
+    row[col.name] = { display, id: targetId };
+  }
+
+  expandChildren(col, row) {
+    // console.log('expandChildren', col, row)
+    const childTable = database[col.table];
+    const parentName = childTable.cols.find(c => c.type === 'parent').name;
+    const childCols = childTable.cols;
+    const childRows = _.cloneDeep(childTable.rows.filter(r => r[parentName] === row.id));
+    childRows.forEach((childRow) => {
+      this.expandRow(childCols, childRow);
+    });
+    row[col.name] = {
+      cols: childCols,
+      rows: childRows,
+    };
+  }
+
+  expandRow(cols, row) {
+    // console.log('expandRow', cols, row)
     cols.forEach((col) => {
-      if (col.type === 'link') {
-        const id = row[col.name];
-        const targetTable = database[col.table];
-        const targetRow = targetTable.rows.find(r => r.id === id);
-        const display = targetRow[targetTable.title];
-        row[col.name] = { id, display };
+      switch (col.type) {
+        case 'link':
+          this.expandLink(col, row);
+          break;
+        case 'children':
+          this.expandChildren(col, row);
+          break;
       }
     });
   }
@@ -25,7 +51,7 @@ export class CommonService {
   getList(tableName: string) {
     const table = _.cloneDeep(database[tableName]);
     table.rows.forEach((row) => {
-      this.expandLink(table.cols, row);
+      this.expandRow(table.cols, row);
     });
     return table;
   }
@@ -34,7 +60,7 @@ export class CommonService {
     const table = database[tableName];
     const cols = table.cols;
     const row = _.cloneDeep(table.rows.find(r => r.id === id));
-    this.expandLink(table.cols, row);
+    this.expandRow(table.cols, row);
     return {
       cols,
       row,
@@ -96,6 +122,12 @@ const database = {
         table: 'npcCategories',
         display: 'Category',
       },
+      {
+        type: 'children',
+        name: 'dropItems',
+        table: 'npcDropItems',
+        display: 'Drop items',
+      },
     ],
     rows: [
       { id: 1, name: 'Baroness Anastari', level: 51, categoryId: 1 },
@@ -134,6 +166,34 @@ const database = {
       { id: 5, name: 'Chillhide Bracers', type: 'Leather Armor' },
       { id: 6, name: 'Windshrieker Pauldrons', type: 'Mail Armor' },
       { id: 7, name: 'Banshee\'s Touch', type: 'Plate Armor' },      
+    ],
+  },
+  npcDropItems: {
+    cols: [
+      {
+        type: 'id',
+        name: 'id',
+        display: 'Id',
+      },
+      {
+        type: 'parent',
+        name: 'npcId',
+      },
+      {
+        type: 'link',
+        name: 'itemId',
+        table: 'items',
+        display: 'Item',
+      },
+      {
+        type: 'integer',
+        name: 'amount',
+        display: 'Amount',
+      },
+    ],
+    rows: [
+      { id: 1, npcId: 1, itemId: 1, amount: 3 },
+      { id: 2, npcId: 1, itemId: 2, amount: 5 },
     ],
   },
 };

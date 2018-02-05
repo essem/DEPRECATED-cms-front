@@ -10,6 +10,7 @@ import { CommonListComponent } from './common-list/common-list.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { CommonDetailComponent } from './common-detail/common-detail.component';
 import { FieldComponent } from './field/field.component';
+import { FieldsComponent } from './fields/fields.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { FieldComponent } from './field/field.component';
     CommonListComponent,
     CommonDetailComponent,
     FieldComponent,
+    FieldsComponent,
   ],
   imports: [
     BrowserModule,

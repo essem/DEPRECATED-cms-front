@@ -1,8 +1,3 @@
 <h1 class="mat-headline">{{detail.display}} {{id}}: {{detail.row[detail.title]}}</h1>
 
-<div class="field" *ngFor="let col of detail.cols">
-  <div class="label">{{col.display}}</div>
-  <div class="value">
-    <app-field [col]="col" [value]="detail.row[col.name]"></app-field>
-  </div>
-</div>
+<app-fields [cols]="detail.cols" [row]="detail.row"></app-fields>
