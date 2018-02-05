@@ -6,25 +6,26 @@ export class CommonService {
   constructor() {}
 
   getRoots() {
-    const entries = _.entries(database).filter(entry => entry[1].display);
-    return entries.map(entry => ({ display: entry[1].display, name: entry[0] }));
+    const entries: [string, ITable][] = _.entries(database);
+    const rootEntries: [string, ITable][] = entries.filter(entry => entry[1].display);
+    return rootEntries.map(entry => ({ display: entry[1].display, name: entry[0] }));
   }
 
-  expandLink(col, row) {
+  expandLink(col: ICol, row: any) {
     // console.log('expandLink', col, row)
-    const targetId = row[col.name];
-    const targetTable = database[col.table];
-    const targetRow = _.cloneDeep(targetTable.rows.find(r => r.id === targetId));
-    const display = targetRow[targetTable.title];
+    const targetId: number = row[col.name];
+    const targetTable: ITable = database[col.table];
+    const targetRow: any = _.cloneDeep(targetTable.rows.find(r => r.id === targetId));
+    const display: string = targetRow[targetTable.title];
     row[col.name] = { display, id: targetId };
   }
 
-  expandChildren(col, row) {
+  expandChildren(col: ICol, row: any) {
     // console.log('expandChildren', col, row)
-    const childTable = database[col.table];
-    const parentName = childTable.cols.find(c => c.type === 'parent').name;
-    const childCols = childTable.cols;
-    const childRows = _.cloneDeep(childTable.rows.filter(r => r[parentName] === row.id));
+    const childTable: ITable = database[col.table];
+    const parentName: string = childTable.cols.find(c => c.type === 'parent').name;
+    const childCols: ICol[] = childTable.cols;
+    const childRows: any[] = _.cloneDeep(childTable.rows.filter(r => r[parentName] === row.id));
     childRows.forEach((childRow) => {
       this.expandRow(childCols, childRow);
     });
@@ -34,7 +35,7 @@ export class CommonService {
     };
   }
 
-  expandRow(cols, row) {
+  expandRow(cols: ICol[], row: any) {
     // console.log('expandRow', cols, row)
     cols.forEach((col) => {
       switch (col.type) {
@@ -48,8 +49,8 @@ export class CommonService {
     });
   }
 
-  getList(tableName: string) {
-    const table = _.cloneDeep(database[tableName]);
+  getList(tableName: string): ITable {
+    const table: ITable = _.cloneDeep(database[tableName]);
     table.rows.forEach((row) => {
       this.expandRow(table.cols, row);
     });
@@ -57,9 +58,9 @@ export class CommonService {
   }
 
   getDetail(tableName: string, id: number) {
-    const table = database[tableName];
-    const cols = table.cols;
-    const row = _.cloneDeep(table.rows.find(r => r.id === id));
+    const table: ITable = database[tableName];
+    const cols: ICol[] = table.cols;
+    const row: any = _.cloneDeep(table.rows.find(r => r.id === id));
     this.expandRow(table.cols, row);
     return {
       cols,
@@ -68,6 +69,20 @@ export class CommonService {
       title: table.title,
     };
   }
+}
+
+interface ICol {
+  type: string;
+  name: string;
+  display?: string;
+  table?: string;
+}
+
+interface ITable {
+  display?: string;
+  title?: string;
+  cols: ICol[];
+  rows: any[];
 }
 
 /* tslint:disable:max-line-length */
